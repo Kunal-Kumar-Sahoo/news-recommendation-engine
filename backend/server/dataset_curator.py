@@ -6,14 +6,17 @@ def scrape_and_save_headlines_to_csv(url, csv_filename):
         headlines = scrape_toi_headlines(url)
 
         if headlines:
-            with open(csv_filename, 'w', newline='') as csvfile:
+            with open(csv_filename, 'a', newline='') as csvfile:  # Use 'a' for append mode
                 fieldnames = ['headline', 'link']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                writer.writeheader()
-
+                
+                # Check if the file is empty, and if so, write the header row
+                if csvfile.tell() == 0:
+                    writer.writeheader()
+                
                 for headline in headlines:
                     writer.writerow(headline)
-            print(f'Headlines saved to {csv_filename}')
+            print(f'New headlines appended to {csv_filename}')
         else:
             print('Failed to retrieve headlines from the web page.')
 
@@ -22,5 +25,5 @@ def scrape_and_save_headlines_to_csv(url, csv_filename):
 
 if __name__ == '__main__':
     url = 'https://timesofindia.indiatimes.com/'
-    csv_filename = 'toi_headlines.csv'
+    csv_filename = './backend/dataset/toi_headlines.csv'
     scrape_and_save_headlines_to_csv(url, csv_filename)
