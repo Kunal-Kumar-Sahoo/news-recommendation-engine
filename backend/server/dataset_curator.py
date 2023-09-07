@@ -22,5 +22,5 @@ def scrape_and_save_headlines_to_csv(url, csv_filename):
 
 if __name__ == '__main__':
     url = 'https://timesofindia.indiatimes.com/'
-    csv_filename = 'toi_headlines.csv'
+    csv_filename = './backend/dataset/toi_headlines.csv'
     scrape_and_save_headlines_to_csv(url, csv_filename)
