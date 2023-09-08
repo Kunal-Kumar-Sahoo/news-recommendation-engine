@@ -1,13 +1,14 @@
-from scraper import scrape_toi_headlines
+from scraper import scrapeAllCategories
+from scraper import TOIclassNames
 import csv
 
-def scrape_and_save_headlines_to_csv(url, csv_filename):
+def scrape_and_save_headlines_to_csv(csv_filename):
     try:
-        headlines = scrape_toi_headlines(url)
+        headlines = scrapeAllCategories()
 
         if headlines:
-            with open(csv_filename, 'a', newline='') as csvfile:  # Use 'a' for append mode
-                fieldnames = ['headline', 'link']
+            with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:  # Use 'a' for append mode
+                fieldnames = ['headline', 'link','image','category']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 
                 # Check if the file is empty, and if so, write the header row
@@ -24,6 +25,5 @@ def scrape_and_save_headlines_to_csv(url, csv_filename):
         print('Error:', str(e))
 
 if __name__ == '__main__':
-    url = 'https://timesofindia.indiatimes.com/'
     csv_filename = './backend/dataset/toi_headlines.csv'
-    scrape_and_save_headlines_to_csv(url, csv_filename)
+    scrape_and_save_headlines_to_csv(csv_filename)
