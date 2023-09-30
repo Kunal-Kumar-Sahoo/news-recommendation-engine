@@ -2,12 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 
 TOIclassNames={
-    'india':['col_l_6','col_1_5','iN5CR'],
-    '':['col_l_6'],
-    'sports/cricket':['col_l_6','col_1_3'],
+    'india':['div',['col_l_6','col_1_5','iN5CR']],
+    '':['div',['col_l_6']],
+    'sports/cricket':['div',['col_l_6','col_1_3']],
+    'auto':['li',['clearfix']],
+
 }
 
-def scrape_toi_headlines(category=''):
+def scrape_toi_headlines(element,category=''):
     url = 'https://timesofindia.indiatimes.com/'+category
     try:
         # Send a GET request to the URL
@@ -19,10 +21,9 @@ def scrape_toi_headlines(category=''):
             soup = BeautifulSoup(response.content, 'html.parser')
 
             # Find all the div elements with the class "col_l_6"
-            divs = soup.find_all('div', class_=TOIclassNames[category])
+            divs = soup.find_all(element, class_=TOIclassNames[category])
             figures = soup.find_all('figure')
             headlines = []
-            print(len(figures))
             for fig in figures:
                 try:
                     headline_text = fig.find('figcaption').text
@@ -69,7 +70,7 @@ def scrape_toi_headlines(category=''):
 def scrapeAllCategories():
     headlines = []
     for category in TOIclassNames:
-        headlines.extend(scrape_toi_headlines(category))
+        headlines.extend(scrape_toi_headlines(TOIclassNames[category][0],category))
     return headlines
 
 if __name__ == '__main__':
