@@ -7,7 +7,7 @@ def scrape_and_save_headlines_to_csv(csv_filename):
         headlines = scrapeAllCategories()
 
         if headlines:
-            with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:  # Use 'a' for append mode
+            with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:  # Use 'a' for append mode, but using w as of now
                 fieldnames = ['headline', 'link','image','category']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 
